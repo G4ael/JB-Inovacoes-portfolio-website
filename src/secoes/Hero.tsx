@@ -1,5 +1,5 @@
 import { Botao, SetaWhatsapp } from '../componentes/Botao'
-import { OndaPontos } from '../componentes/OndaPontos'
+import { OndaPontosLazy } from '../componentes/OndaPontosLazy'
 import { TextoRevelado } from '../componentes/TextoRevelado'
 import { linkWhatsapp } from '../lib/links'
 import { projetos } from '../dados'
@@ -12,7 +12,7 @@ export function Hero() {
       {/* Onda de pontos em WebGL. Segue o ponteiro e some sozinha
           onde não há suporte — o fundo sólido assume. */}
       <div className="absolute inset-0 -z-10">
-        <OndaPontos cor="#5cfd86" />
+        <OndaPontosLazy cor="#5cfd86" />
         {/* Máscara para o texto nunca disputar leitura com a onda */}
         {/* Duas máscaras, cada uma com um trabalho: a de cima limpa a
             área da manchete, a lateral abre espaço para o texto à

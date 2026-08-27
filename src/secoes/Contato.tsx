@@ -4,7 +4,7 @@ import { linkWhatsapp, linkEmail } from '../lib/links'
 import { Botao, SetaWhatsapp } from '../componentes/Botao'
 import { Revelar } from '../componentes/Revelar'
 import { TextoRevelado } from '../componentes/TextoRevelado'
-import { OndaPontos } from '../componentes/OndaPontos'
+import { OndaPontosLazy } from '../componentes/OndaPontosLazy'
 
 export function Contato() {
   const idNome = useId()
@@ -38,7 +38,7 @@ ${projeto.trim()}`
   return (
     <section id="orcamento" className="relative isolate scroll-mt-24 overflow-hidden border-b border-linha">
       <div className="absolute inset-0 -z-10">
-        <OndaPontos cor="#5cfd86" />
+        <OndaPontosLazy cor="#5cfd86" />
         <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-fundo from-20% via-fundo/80 to-fundo" />
       </div>
 

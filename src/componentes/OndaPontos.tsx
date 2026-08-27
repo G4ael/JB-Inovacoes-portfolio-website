@@ -195,6 +195,15 @@ export function OndaPontos({ cor = '#5cfd86', className = '' }: Props) {
     gl.blendFunc(gl.ONE, gl.ONE)
     gl.clearColor(0, 0, 0, 0)
 
+    /* O retângulo do canvas fica em cache. Lê-lo dentro do
+       `pointermove` forçava um cálculo de layout a cada movimento do
+       mouse; agora ele só é relido quando a página rola ou muda de
+       tamanho, que é quando de fato muda. */
+    let caixa = canvas.getBoundingClientRect()
+    const relerCaixa = () => {
+      if (canvas) caixa = canvas.getBoundingClientRect()
+    }
+
     /* ResizeObserver em vez de ouvir `resize` na janela: o canvas
        chega a medir 0 de largura na montagem, e o observador
        remede sozinho quando o layout assenta. */
@@ -222,7 +231,10 @@ export function OndaPontos({ cor = '#5cfd86', className = '' }: Props) {
     }
     medir()
 
-    const observadorTamanho = new ResizeObserver(() => medir())
+    const observadorTamanho = new ResizeObserver(() => {
+      medir()
+      relerCaixa()
+    })
     observadorTamanho.observe(canvas)
 
     /* O ponteiro puxa a onda; o alvo é interpolado para o
@@ -232,16 +244,17 @@ export function OndaPontos({ cor = '#5cfd86', className = '' }: Props) {
     let forcaAlvo = 0.35
 
     function aoMover(ev: PointerEvent) {
-      if (!canvas) return
-      const r = canvas.getBoundingClientRect()
       const dentro =
-        ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom
+        ev.clientX >= caixa.left &&
+        ev.clientX <= caixa.right &&
+        ev.clientY >= caixa.top &&
+        ev.clientY <= caixa.bottom
       if (!dentro) {
         forcaAlvo = 0.35
         return
       }
-      alvo.x = ((ev.clientX - r.left) / r.width) * 2 - 1
-      alvo.y = -(((ev.clientY - r.top) / r.height) * 2 - 1)
+      alvo.x = ((ev.clientX - caixa.left) / caixa.width) * 2 - 1
+      alvo.y = -(((ev.clientY - caixa.top) / caixa.height) * 2 - 1)
       forcaAlvo = 1
     }
     function aoSair() {
@@ -256,6 +269,8 @@ export function OndaPontos({ cor = '#5cfd86', className = '' }: Props) {
       window.addEventListener('pointermove', aoMover, { passive: true })
       window.addEventListener('pointerdown', aoMover, { passive: true })
       document.addEventListener('pointerleave', aoSair, { passive: true })
+      window.addEventListener('scroll', relerCaixa, { passive: true })
+      window.addEventListener('resize', relerCaixa, { passive: true })
     }
 
     let forca = forcaAlvo
@@ -338,6 +353,8 @@ export function OndaPontos({ cor = '#5cfd86', className = '' }: Props) {
       window.removeEventListener('pointermove', aoMover)
       window.removeEventListener('pointerdown', aoMover)
       document.removeEventListener('pointerleave', aoSair)
+      window.removeEventListener('scroll', relerCaixa)
+      window.removeEventListener('resize', relerCaixa)
       gl.deleteBuffer(buf)
       gl.deleteProgram(prog)
       gl.deleteShader(vs)

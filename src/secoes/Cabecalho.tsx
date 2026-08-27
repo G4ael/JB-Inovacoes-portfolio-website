@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Botao, SetaWhatsapp } from '../componentes/Botao'
 import { linkWhatsapp, linkEmail } from '../lib/links'
 
@@ -10,20 +10,36 @@ const ancoras = [
 
 export function Cabecalho() {
   const [rolou, setRolou] = useState(false)
-  const [progresso, setProgresso] = useState(0)
+  const refFio = useRef<HTMLDivElement>(null)
   const zap = linkWhatsapp()
   const mail = linkEmail('Orçamento de site')
 
   useEffect(() => {
-    const aoRolar = () => {
+    /* O fio de progresso muda a cada quadro de rolagem. Ele é escrito
+       direto no DOM em vez de virar estado: como estado, a página
+       inteira do cabeçalho re-renderizava a cada pixel rolado.
+       `rolou` continua em estado porque muda uma vez, num limiar. */
+    let agendado = false
+    const aplicar = () => {
+      agendado = false
       const y = window.scrollY
       setRolou(y > 24)
       const total = document.documentElement.scrollHeight - window.innerHeight
-      setProgresso(total > 0 ? Math.min(1, y / total) : 0)
+      const p = total > 0 ? Math.min(1, y / total) : 0
+      if (refFio.current) refFio.current.style.transform = `scaleX(${p})`
     }
-    aoRolar()
+    const aoRolar = () => {
+      if (agendado) return
+      agendado = true
+      requestAnimationFrame(aplicar)
+    }
+    aplicar()
     window.addEventListener('scroll', aoRolar, { passive: true })
-    return () => window.removeEventListener('scroll', aoRolar)
+    window.addEventListener('resize', aoRolar, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', aoRolar)
+      window.removeEventListener('resize', aoRolar)
+    }
   }, [])
 
   return (
@@ -76,9 +92,9 @@ export function Cabecalho() {
       {/* Fio de progresso da leitura. Informação, não enfeite:
           diz quanto ainda falta de página. */}
       <div
+        ref={refFio}
         aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-px origin-left bg-neon transition-transform duration-150 ease-out"
-        style={{ transform: `scaleX(${progresso})` }}
+        className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-neon"
       />
     </header>
   )
