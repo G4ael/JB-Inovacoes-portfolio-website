@@ -37,15 +37,53 @@ botão "Abrir o site" não aparece naquele projeto.
 Os tokens ficam no bloco `@theme` de `src/estilo.css`. Trocar a identidade
 inteira é trocar aqueles valores.
 
-- Papel `#EFEBE0`, tinta `#131210`, acento ultramarino `#1F3BE8`
-- Display: Bricolage Grotesque em peso 400, tracking `-0.035em`
-- Texto: Schibsted Grotesk
-- O acento aparece no botão principal, na linha ativa do portfólio e no
-  foco de teclado. Em mais lugares que isso ele deixa de destacar.
+- Fundo `#0A0C0B`, texto `#ECEFEA`, neon `#5CFD86` como cor de ação
+- Display e texto: Space Grotesk; rótulos, números e metadados: JetBrains Mono
+- Cada projeto do portfólio carrega a cor da marca do próprio cliente
+  (`cor` em `src/dados.ts`): ela acende a linha ativa, o halo, os traços
+  da lista e o brilho do painel de print. A cor da página vem do trabalho,
+  não de uma paleta decorativa.
+- Borda de campo usa `--color-campo-borda`, e não a régua decorativa:
+  limite de campo precisa de 3:1 contra o fundo.
 
-A revelação na rolagem é CSS puro (`.revelar`, com `animation-timeline: view()`).
-Onde o navegador não suporta, o conteúdo simplesmente aparece — nunca fica
-preso invisível.
+## Movimento
+
+Tudo em CSS ligado à rolagem (`animation-timeline: view()`), dentro de
+`@supports` e de `prefers-reduced-motion: no-preference`. Onde não há
+suporte, o conteúdo simplesmente aparece — nunca fica preso invisível.
+
+- `.revelar` sobe blocos inteiros
+- `TextoRevelado` quebra a frase em palavras (ou letras) e dá a cada
+  pedaço o próprio `animation-range`, calculado no React. É isso que
+  escalona sem depender de JS em execução. No herói o gatilho é a carga
+  da página (`naEntrada`), porque o bloco já nasce na tela.
+- `Faixa` é a tarja rolante; pausa no hover e para com menos movimento.
+
+## A onda de pontos (WebGL)
+
+`src/componentes/OndaPontos.tsx` é escrito do zero — o preset "Point Waves"
+do shaders.com é pago e licenciado, então nada de lá foi copiado.
+
+A grade é um plano em fuga: o eixo Y vira profundidade e o X é
+multiplicado por ela, para cada fileira cobrir a largura da tela depois
+da divisão em perspectiva. As ondas são calculadas em coordenadas de
+mundo, e o ponteiro injeta uma ondulação local.
+
+Cuidados que o componente já toma sozinho:
+
+- Sem WebGL, o canvas some e o fundo sólido assume
+- `ResizeObserver` remede o canvas (na montagem ele chega a medir 0)
+- Fora da tela ou com a aba escondida, o laço para
+- `prefers-reduced-motion` desenha um quadro parado
+- No celular a grade cai pela metade e o DPR é limitado a 1.5
+- Alfa pré-multiplicado com blend aditivo: com alfa normal o compositor
+  do navegador multiplicava a cor pelo alfa acumulado e a onda sumia
+
+Dois detalhes que já custaram caro e não devem regredir: os uniformes
+precisam ser reescritos toda vez que `medir()` roda (em StrictMode o
+efeito roda duas vezes e o segundo programa nasce zerado), e o laço não
+roda em aba sem composição — para conferir a onda, use captura headless,
+não a aba embutida.
 
 ## Prints do portfólio
 

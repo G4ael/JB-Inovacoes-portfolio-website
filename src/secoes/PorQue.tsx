@@ -1,4 +1,5 @@
 import { Revelar } from '../componentes/Revelar'
+import { TextoRevelado } from '../componentes/TextoRevelado'
 
 const motivos = [
   {
@@ -29,33 +30,39 @@ const motivos = [
 
 export function PorQue() {
   return (
-    <section className="border-b border-regua">
+    <section className="border-b border-linha">
       <div className="mx-auto max-w-[86rem] px-5 py-20 sm:px-8 sm:py-28">
         <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-14">
-          <Revelar className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start">
-            <p className="rotulo text-tinta-fraca">
-              03 <span aria-hidden="true" className="mx-2 text-tinta-fraca">/</span> Por que a JB
-            </p>
-            <h2 className="display mt-6 max-w-[12ch] text-[clamp(2rem,5.5vw,4.25rem)]">
-              O que muda quando o estúdio é pequeno.
-            </h2>
-          </Revelar>
+          <div className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start">
+            <Revelar>
+              <p className="rotulo text-texto-fraco">
+                03 <span aria-hidden="true" className="mx-2 text-texto-fraco">/</span> Por que a JB
+              </p>
+            </Revelar>
+            <TextoRevelado
+              as="h2"
+              texto="O que muda quando o estúdio é pequeno."
+              className="display mt-6 block max-w-[12ch] text-[clamp(2rem,5.5vw,4.25rem)]"
+            />
+          </div>
 
           <div className="lg:col-span-7 lg:col-start-6">
             {motivos.map((m) => (
               <Revelar key={m.rotulo}>
-                <div className="grid gap-3 border-t border-regua py-8 sm:grid-cols-[8rem_1fr] sm:gap-8">
-                  <p className="rotulo pt-1.5 text-tinta-fraca">{m.rotulo}</p>
+                <div className="group grid gap-3 border-t border-linha py-8 transition-colors duration-500 hover:border-neon/45 sm:grid-cols-[8rem_1fr] sm:gap-8">
+                  <p className="rotulo pt-1.5 text-texto-fraco transition-colors duration-500 group-hover:text-neon">
+                    {m.rotulo}
+                  </p>
                   <div>
                     <h3 className="display text-[1.4rem] sm:text-[1.65rem]">{m.titulo}</h3>
-                    <p className="mt-3 text-[0.9375rem] leading-relaxed text-tinta-media sm:text-base">
+                    <p className="mt-3 text-[0.9375rem] leading-relaxed text-texto-medio sm:text-base">
                       {m.texto}
                     </p>
                   </div>
                 </div>
               </Revelar>
             ))}
-            <div className="border-t border-regua" />
+            <div className="border-t border-linha" />
           </div>
         </div>
       </div>

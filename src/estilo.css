@@ -2,26 +2,34 @@
 
 /* ============================================================
    JB Inovações — tokens de identidade
-   Papel quente + tinta + um único acento ultramarino.
+
+   Fundo quase-preto com viés verde + um neon como cor de ação.
+   As cores de projeto vêm da marca de cada cliente, não de uma
+   paleta decorativa: é o portfólio que traz a cor para a página.
+
    Trocar a identidade inteira = trocar os valores deste bloco.
    ============================================================ */
 @theme {
-  --color-papel: #efebe0;
-  --color-papel-fundo: #e7e2d4;
-  --color-tinta: #131210;
-  --color-tinta-media: #4a463d;
-  --color-tinta-fraca: #6b6659;
-  --color-regua: #d3ccba;
-  --color-regua-forte: #bdb49c;
-  --color-acento: #1f3be8;
-  --color-acento-fundo: #1730b8;
+  --color-fundo: #0a0c0b;
+  --color-fundo-2: #121614;
+  --color-fundo-3: #1b211e;
+  --color-texto: #ecefea;
+  --color-texto-medio: #a2aba4;
+  --color-texto-fraco: #7b867f;
+  --color-linha: #262e29;
+  --color-linha-forte: #39443d;
+  /* Limite de campo precisa de 3:1 contra o fundo; a régua
+     decorativa (#39443d) fica em 1,93 e não serve aqui. */
+  --color-campo-borda: #5a675f;
+  --color-neon: #5cfd86;
+  --color-neon-fundo: #3be068;
 
-  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  --font-texto: "Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
 
   --text-rotulo: 0.6875rem;
   --text-rotulo--line-height: 1.2;
-  --text-rotulo--letter-spacing: 0.16em;
+  --text-rotulo--letter-spacing: 0.14em;
 
   --ease-fisica: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -30,6 +38,9 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    /* Cor viva por baixo de tudo, para o elástico do celular não
+       revelar uma faixa branca no topo. */
+    background-color: var(--color-fundo);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -41,9 +52,9 @@
   }
 
   body {
-    background-color: var(--color-papel);
-    color: var(--color-tinta);
-    font-family: var(--font-texto);
+    background-color: var(--color-fundo);
+    color: var(--color-texto);
+    font-family: var(--font-display);
     font-size: 1.0625rem;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -52,30 +63,29 @@
 
   /* Foco de teclado sempre visível — regra da casa, não enfeite. */
   :focus-visible {
-    outline: 2px solid var(--color-acento);
+    outline: 2px solid var(--color-neon);
     outline-offset: 3px;
     border-radius: 2px;
   }
 
   ::selection {
-    background: var(--color-acento);
-    color: var(--color-papel);
+    background: var(--color-neon);
+    color: var(--color-fundo);
   }
 }
 
 @utility display {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.02;
   letter-spacing: -0.035em;
-  font-optical-sizing: auto;
   text-wrap: balance;
 }
 
-/* Rótulo técnico: caixa alta, tracking largo, numeral tabular.
-   É o gesto que se repete em todas as seções. */
+/* Rótulo técnico em mono: é o gesto que se repete em todas as seções
+   e o que dá a leitura "digital" sem precisar de enfeite. */
 @utility rotulo {
-  font-family: var(--font-texto);
+  font-family: var(--font-mono);
   font-size: var(--text-rotulo);
   line-height: var(--text-rotulo--line-height);
   letter-spacing: var(--text-rotulo--letter-spacing);
@@ -89,12 +99,11 @@
 }
 
 /* ------------------------------------------------------------
-   Revelação na rolagem — CSS puro, sem JavaScript.
+   Movimento — tudo em CSS, ligado à rolagem.
 
-   O padrão é o conteúdo VISÍVEL. A animação só entra onde o
-   navegador entende linha do tempo de rolagem e onde ninguém
-   pediu menos movimento. Assim nenhum texto fica preso
-   invisível se algo quebrar.
+   O padrão é sempre o conteúdo VISÍVEL. A animação só entra onde
+   o navegador entende linha do tempo de rolagem e onde ninguém
+   pediu menos movimento. Assim nada fica preso invisível.
    ------------------------------------------------------------ */
 @keyframes revelar-entrada {
   from {
@@ -107,6 +116,24 @@
   }
 }
 
+/* Palavra subindo por trás de uma máscara: o texto "vai surgindo"
+   conforme a linha entra na tela, uma palavra depois da outra. */
+@keyframes palavra-sobe {
+  from {
+    opacity: 0;
+    transform: translateY(105%) rotate(3deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes linha-cresce {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
     .revelar {
@@ -114,5 +141,66 @@
       animation-timeline: view();
       animation-range: entry 0% cover 26%;
     }
+
+    /* Cada palavra carrega o próprio intervalo, calculado no React.
+       É o que produz o escalonamento sem depender de JS em execução. */
+    .palavra {
+      animation: palavra-sobe linear both;
+      animation-timeline: view();
+    }
+
+    .risca {
+      animation: linha-cresce linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 20%;
+      transform-origin: left;
+    }
   }
+}
+
+/* A máscara que corta a palavra enquanto ela sobe. Fica fora do
+   @supports porque também serve de contenção normal. */
+.palavra-mascara {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+.palavra {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* Variante de entrada: o herói já nasce na tela, então ali o
+   escalonamento é por tempo, não por rolagem. O `both` garante que
+   quem pediu menos movimento veja o estado final, não o inicial. */
+.palavra-entrada {
+  animation: palavra-sobe 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  /* Explícito de propósito: sem isso a regra depende do atalho
+     `animation` zerar a linha do tempo herdada de `.palavra`. */
+  animation-timeline: auto;
+}
+
+/* Faixa rolante do rodapé de seção. Pausa no hover e some para
+   quem pediu menos movimento. */
+@keyframes faixa-anda {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.faixa-trilho {
+  display: flex;
+  width: max-content;
+  animation: faixa-anda 38s linear infinite;
+}
+
+.faixa:hover .faixa-trilho,
+.faixa:focus-within .faixa-trilho {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faixa-trilho { animation: none; }
 }

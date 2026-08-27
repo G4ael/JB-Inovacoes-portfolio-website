@@ -1,6 +1,7 @@
 import { Cabecalho } from './secoes/Cabecalho'
 import { Hero } from './secoes/Hero'
 import { Portfolio } from './secoes/Portfolio'
+import { Faixa } from './componentes/Faixa'
 import { Processo } from './secoes/Processo'
 import { PorQue } from './secoes/PorQue'
 import { Contato } from './secoes/Contato'
@@ -11,7 +12,7 @@ export default function App() {
     <>
       <a
         href="#projetos"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-[2px] focus:bg-tinta focus:px-4 focus:py-2 focus:text-papel"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-[2px] focus:bg-neon focus:px-4 focus:py-2 focus:text-fundo"
       >
         Pular para os projetos
       </a>
@@ -19,6 +20,7 @@ export default function App() {
       <main>
         <Hero />
         <Portfolio />
+        <Faixa />
         <Processo />
         <PorQue />
         <Contato />

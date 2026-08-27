@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { projetos } from '../dados'
 import { Revelar } from '../componentes/Revelar'
+import { TextoRevelado } from '../componentes/TextoRevelado'
 
 export function Portfolio() {
   const [ativo, setAtivo] = useState(projetos[0].id)
@@ -25,16 +26,22 @@ export function Portfolio() {
   }, [])
 
   return (
-    <section id="projetos" className="border-b border-regua scroll-mt-24">
+    <section id="projetos" className="scroll-mt-24 border-b border-linha">
       <div className="mx-auto max-w-[86rem] px-5 py-20 sm:px-8 sm:py-28">
         <Revelar>
-          <p className="rotulo text-tinta-fraca">
-            01 <span aria-hidden="true" className="mx-2 text-tinta-fraca">/</span> Projetos
+          <p className="rotulo text-texto-fraco">
+            01 <span aria-hidden="true" className="mx-2 text-texto-fraco">/</span> Projetos
           </p>
-          <h2 className="display mt-6 max-w-[13ch] text-[clamp(2rem,5.5vw,4.25rem)]">
-            O trabalho, não a promessa.
-          </h2>
-          <p className="medida-texto mt-6 text-tinta-media">
+        </Revelar>
+
+        <TextoRevelado
+          as="h2"
+          texto="O trabalho, não a promessa."
+          className="display mt-6 block max-w-[13ch] text-[clamp(2rem,5.5vw,4.25rem)]"
+        />
+
+        <Revelar>
+          <p className="medida-texto mt-6 text-texto-medio">
             Os três sites abaixo estão com os donos. Eles cadastram produto, mudam preço e trocam
             foto pelo painel, sem passar por mim.
           </p>
@@ -53,36 +60,54 @@ export function Portfolio() {
                   }}
                   onMouseEnter={() => setAtivo(p.id)}
                   onFocus={() => setAtivo(p.id)}
+                  style={{ '--cor-projeto': p.cor } as CSSProperties}
                   className={
-                    'group relative border-t border-regua py-9 pl-5 transition-colors duration-500 sm:pl-7 ' +
+                    'group relative border-t border-linha py-9 pl-5 transition-colors duration-500 sm:pl-7 ' +
                     (i === projetos.length - 1 ? 'border-b' : '')
                   }
                 >
-                  {/* Marca de linha ativa: a única aparição do acento aqui */}
+                  {/* Marca de linha ativa, na cor da marca do cliente */}
                   <span
                     aria-hidden="true"
                     className={
-                      'absolute left-0 top-0 w-[2px] bg-acento transition-[height] duration-500 ease-fisica ' +
+                      'absolute left-0 top-0 w-[2px] bg-(--cor-projeto) transition-[height] duration-500 ease-fisica ' +
                       (estaAtivo ? 'h-full' : 'h-0')
                     }
                   />
+                  {/* Halo que acende só na linha ativa */}
+                  <span
+                    aria-hidden="true"
+                    className={
+                      'pointer-events-none absolute inset-y-0 left-0 w-40 transition-opacity duration-700 ' +
+                      'bg-linear-to-r from-(--cor-projeto)/12 to-transparent ' +
+                      (estaAtivo ? 'opacity-100' : 'opacity-0')
+                    }
+                  />
+
                   <Revelar>
-                    <div className="flex items-baseline gap-4">
+                    <div className="relative flex items-baseline gap-4">
                       <span
                         className={
                           'rotulo transition-colors duration-300 ' +
-                          (estaAtivo ? 'text-acento' : 'text-tinta-fraca')
+                          (estaAtivo ? 'text-(--cor-projeto)' : 'text-texto-fraco')
                         }
                       >
                         {p.numero}
                       </span>
-                      <h3 className="display text-[clamp(1.7rem,3.6vw,2.9rem)]">{p.nome}</h3>
+                      <h3
+                        className={
+                          'display text-[clamp(1.7rem,3.6vw,2.9rem)] transition-colors duration-300 ' +
+                          (estaAtivo ? 'text-(--cor-projeto)' : 'text-texto')
+                        }
+                      >
+                        {p.nome}
+                      </h3>
                     </div>
 
-                    <p className="rotulo mt-3 ml-[2.6rem] text-tinta-fraca">{p.setor}</p>
+                    <p className="rotulo relative mt-3 ml-[2.6rem] text-texto-fraco">{p.setor}</p>
 
-                    <div className="mt-5 ml-0 sm:ml-[2.6rem]">
-                      <p className="medida-texto text-tinta-media">{p.contexto}</p>
+                    <div className="relative mt-5 ml-0 sm:ml-[2.6rem]">
+                      <p className="medida-texto text-texto-medio">{p.contexto}</p>
 
                       {/* Imagem no fluxo — é assim que o celular vê o projeto */}
                       <figure className="mt-7 lg:hidden">
@@ -93,14 +118,20 @@ export function Portfolio() {
                           loading="lazy"
                           decoding="async"
                           alt={p.alt}
-                          className="w-full border border-regua-forte bg-papel-fundo"
+                          className="w-full border border-linha-forte bg-fundo-2"
                         />
                       </figure>
 
-                      <ul className="mt-7 grid gap-y-2 border-t border-regua pt-5 sm:grid-cols-2 sm:gap-x-8">
+                      <ul className="mt-7 grid gap-y-2 border-t border-linha pt-5 sm:grid-cols-2 sm:gap-x-8">
                         {p.entregue.map((item) => (
-                          <li key={item} className="flex gap-2.5 text-[0.9375rem] text-tinta-media">
-                            <span aria-hidden="true" className="mt-2.5 h-px w-3 shrink-0 bg-regua-forte" />
+                          <li key={item} className="flex gap-2.5 text-[0.9375rem] text-texto-medio">
+                            <span
+                              aria-hidden="true"
+                              className={
+                                'mt-2.5 h-px w-3 shrink-0 transition-colors duration-500 ' +
+                                (estaAtivo ? 'bg-(--cor-projeto)' : 'bg-linha-forte')
+                              }
+                            />
                             {item}
                           </li>
                         ))}
@@ -111,10 +142,12 @@ export function Portfolio() {
                           href={p.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="rotulo mt-6 inline-flex items-center gap-2 text-tinta underline decoration-regua-forte underline-offset-[6px] transition-colors hover:text-acento hover:decoration-acento"
+                          className="rotulo mt-6 inline-flex min-h-11 items-center gap-2 text-texto underline decoration-linha-forte underline-offset-[6px] transition-colors hover:text-(--cor-projeto) hover:decoration-(--cor-projeto)"
                         >
                           Abrir o site
-                          <span aria-hidden="true">↗</span>
+                          <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-0.5">
+                            ↗
+                          </span>
                         </a>
                       )}
                     </div>
@@ -126,8 +159,11 @@ export function Portfolio() {
 
           {/* Painel fixo: troca de print conforme a linha ativa. Só no desktop. */}
           <div className="hidden lg:col-span-6 lg:block xl:col-span-5">
-            <div className="sticky top-24">
-              <div className="relative aspect-[16/10] w-full overflow-hidden border border-regua-forte bg-papel-fundo">
+            <div
+              className="sticky top-24"
+              style={{ '--cor-projeto': projetoAtivo.cor } as CSSProperties}
+            >
+              <div className="relative aspect-16/10 w-full overflow-hidden border border-linha-forte bg-fundo-2 transition-shadow duration-700 shadow-[0_0_60px_-24px_var(--cor-projeto)]">
                 {projetos.map((p) => (
                   <img
                     key={p.id}
@@ -139,14 +175,20 @@ export function Portfolio() {
                     alt={p.alt}
                     aria-hidden={ativo !== p.id}
                     className={
-                      'absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-500 ease-fisica ' +
-                      (ativo === p.id ? 'opacity-100' : 'opacity-0')
+                      'absolute inset-0 h-full w-full object-cover object-top transition-[opacity,transform] duration-700 ease-fisica ' +
+                      (ativo === p.id ? 'scale-100 opacity-100' : 'scale-[1.03] opacity-0')
                     }
                   />
                 ))}
               </div>
-              <p className="rotulo mt-4 text-tinta-fraca">
-                {projetoAtivo.nome} <span aria-hidden="true" className="mx-2 text-tinta-fraca">/</span> tela inicial
+              <p className="rotulo mt-4 flex items-center gap-2 text-texto-fraco">
+                <span
+                  aria-hidden="true"
+                  className="inline-block h-1.5 w-1.5 rounded-full bg-(--cor-projeto) transition-colors duration-500"
+                />
+                {projetoAtivo.nome}
+                <span aria-hidden="true" className="text-texto-fraco">/</span>
+                tela inicial
               </p>
             </div>
           </div>

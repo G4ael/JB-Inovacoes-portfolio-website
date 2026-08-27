@@ -2,7 +2,7 @@ import { contato } from '../dados'
 import { linkWhatsapp, linkEmail, linkInstagram } from '../lib/links'
 
 const linkClasses =
-  'rotulo text-tinta underline decoration-regua-forte underline-offset-[6px] transition-colors hover:text-acento hover:decoration-acento'
+  'rotulo inline-flex min-h-11 items-center text-texto underline decoration-linha-forte underline-offset-[6px] transition-colors hover:text-neon hover:decoration-neon'
 
 export function Rodape() {
   const zap = linkWhatsapp()
@@ -15,12 +15,12 @@ export function Rodape() {
       <div className="flex flex-col gap-10 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="display text-[1.5rem] tracking-[-0.04em]">
-            JB<span className="text-tinta-fraca"> Inovações</span>
+            JB{' '}<span className="text-texto-fraco">Inovações</span>
           </p>
-          <p className="rotulo mt-3 text-tinta-fraca">Sites e painéis · {ano}</p>
+          <p className="rotulo mt-3 text-texto-fraco">Sites e painéis · {ano}</p>
         </div>
 
-        <ul className="flex flex-wrap gap-x-8 gap-y-3">
+        <ul className="flex flex-wrap gap-x-8 gap-y-1">
           {zap && (
             <li>
               <a href={zap} target="_blank" rel="noopener noreferrer" className={linkClasses}>

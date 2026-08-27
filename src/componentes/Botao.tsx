@@ -9,16 +9,17 @@ type Props = AnchorHTMLAttributes<HTMLAnchorElement> & {
 /* Cantos retos (2px). É uma decisão, não um default:
    o site inteiro evita o arredondado de meio-caminho. */
 const base =
-  'inline-flex items-center justify-center gap-2.5 rounded-[2px] font-medium ' +
-  'transition-colors duration-200 ease-fisica min-h-11'
+  'group/botao relative inline-flex items-center justify-center gap-2.5 overflow-hidden ' +
+  'rounded-[2px] font-medium min-h-11 active:translate-y-px ' +
+  'transition-[color,background-color,border-color,box-shadow,transform] duration-300 ease-fisica'
 
 const variantes = {
   principal:
-    'bg-acento text-papel hover:bg-acento-fundo active:bg-acento-fundo',
+    'bg-neon text-fundo hover:bg-neon-fundo hover:shadow-[0_0_34px_-6px_var(--color-neon)]',
   contorno:
-    'border border-tinta text-tinta hover:bg-tinta hover:text-papel',
+    'border border-campo-borda text-texto hover:border-neon hover:text-neon hover:shadow-[0_0_28px_-12px_var(--color-neon)]',
   texto:
-    'text-tinta underline decoration-regua-forte decoration-1 underline-offset-[6px] hover:decoration-acento hover:text-acento',
+    'text-texto underline decoration-linha-forte decoration-1 underline-offset-[6px] hover:decoration-neon hover:text-neon',
 }
 
 const tamanhos = {
@@ -36,7 +37,14 @@ export function Botao({ variante = 'principal', tamanho = 'normal', className = 
     (className ? ' ' + className : '')
   return (
     <a className={classes} {...resto}>
-      {children}
+      {/* Varredura de luz que atravessa o botão no hover */}
+      {variante !== 'texto' && (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 ease-fisica group-hover/botao:translate-x-full motion-reduce:hidden"
+        />
+      )}
+      <span className="relative inline-flex items-center gap-2.5">{children}</span>
     </a>
   )
 }

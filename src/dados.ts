@@ -23,6 +23,9 @@ export type Projeto = {
   numero: string
   nome: string
   setor: string
+  /** Cor da marca do próprio cliente. É ela que tinge a linha ativa
+   *  do portfólio e a onda do fundo — a cor da página vem do trabalho. */
+  cor: string
   contexto: string
   entregue: string[]
   link: string | null
@@ -37,6 +40,7 @@ export const projetos: Projeto[] = [
     numero: '01',
     nome: 'Servigás Aquecedores',
     setor: 'Venda e instalação de aquecedores a gás',
+    cor: '#F2600C',
     contexto:
       'A loja online não fica sozinha: o catálogo dela sai do mesmo sistema onde a Servigás controla vendas, estoque e clientes. Cadastrou um aquecedor lá dentro, ele aparece no site na mesma hora.',
     entregue: [
@@ -55,6 +59,7 @@ export const projetos: Projeto[] = [
     numero: '02',
     nome: 'Forja 3D',
     setor: 'Peças impressas em 3D sob encomenda',
+    cor: '#8B7CF6',
     contexto:
       'Impressão 3D tem um problema de preço: a mesma peça custa diferente em P, M e G. O catálogo calcula isso sozinho e ainda soma a pintura à mão quando o cliente marca a opção.',
     entregue: [
@@ -73,6 +78,7 @@ export const projetos: Projeto[] = [
     numero: '03',
     nome: 'Marcenaria Bom Madeiro',
     setor: 'Móveis sob medida',
+    cor: '#C89B6D',
     contexto:
       'Marcenaria vende pelo olho: o cliente quer ver o armário pronto antes de pedir orçamento. O mostruário virou o catálogo da oficina, e quem edita as fotos é o próprio marceneiro, pelo painel.',
     entregue: [
