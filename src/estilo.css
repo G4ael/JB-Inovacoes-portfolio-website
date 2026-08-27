@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+/* ============================================================
+   JB Inovações — tokens de identidade
+   Papel quente + tinta + um único acento ultramarino.
+   Trocar a identidade inteira = trocar os valores deste bloco.
+   ============================================================ */
+@theme {
+  --color-papel: #efebe0;
+  --color-papel-fundo: #e7e2d4;
+  --color-tinta: #131210;
+  --color-tinta-media: #4a463d;
+  --color-tinta-fraca: #6b6659;
+  --color-regua: #d3ccba;
+  --color-regua-forte: #bdb49c;
+  --color-acento: #1f3be8;
+  --color-acento-fundo: #1730b8;
+
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-texto: "Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
+
+  --text-rotulo: 0.6875rem;
+  --text-rotulo--line-height: 1.2;
+  --text-rotulo--letter-spacing: 0.16em;
+
+  --ease-fisica: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--color-papel);
+    color: var(--color-tinta);
+    font-family: var(--font-texto);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    font-synthesis-weight: none;
+  }
+
+  /* Foco de teclado sempre visível — regra da casa, não enfeite. */
+  :focus-visible {
+    outline: 2px solid var(--color-acento);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--color-acento);
+    color: var(--color-papel);
+  }
+}
+
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-optical-sizing: auto;
+  text-wrap: balance;
+}
+
+/* Rótulo técnico: caixa alta, tracking largo, numeral tabular.
+   É o gesto que se repete em todas as seções. */
+@utility rotulo {
+  font-family: var(--font-texto);
+  font-size: var(--text-rotulo);
+  line-height: var(--text-rotulo--line-height);
+  letter-spacing: var(--text-rotulo--letter-spacing);
+  text-transform: uppercase;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+@utility medida-texto {
+  max-width: 34rem;
+}
+
+/* ------------------------------------------------------------
+   Revelação na rolagem — CSS puro, sem JavaScript.
+
+   O padrão é o conteúdo VISÍVEL. A animação só entra onde o
+   navegador entende linha do tempo de rolagem e onde ninguém
+   pediu menos movimento. Assim nenhum texto fica preso
+   invisível se algo quebrar.
+   ------------------------------------------------------------ */
+@keyframes revelar-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .revelar {
+      animation: revelar-entrada linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 26%;
+    }
+  }
+}
