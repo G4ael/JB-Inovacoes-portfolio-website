@@ -29,7 +29,7 @@ export function Portfolio() {
       <div className="mx-auto max-w-[86rem] px-5 py-20 sm:px-8 sm:py-28">
         <Revelar>
           <p className="rotulo text-tinta-fraca">
-            01 <span className="mx-2 text-regua-forte">/</span> Projetos
+            01 <span aria-hidden="true" className="mx-2 text-tinta-fraca">/</span> Projetos
           </p>
           <h2 className="display mt-6 max-w-[13ch] text-[clamp(2rem,5.5vw,4.25rem)]">
             O trabalho, não a promessa.
@@ -146,7 +146,7 @@ export function Portfolio() {
                 ))}
               </div>
               <p className="rotulo mt-4 text-tinta-fraca">
-                {projetoAtivo.nome} <span className="mx-2 text-regua-forte">/</span> tela inicial
+                {projetoAtivo.nome} <span aria-hidden="true" className="mx-2 text-tinta-fraca">/</span> tela inicial
               </p>
             </div>
           </div>

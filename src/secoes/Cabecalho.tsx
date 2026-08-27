@@ -28,7 +28,7 @@ export function Cabecalho() {
       }
     >
       <div className="mx-auto flex max-w-[86rem] items-center gap-4 px-5 py-3.5 sm:px-8">
-        <a href="#topo" className="display text-[1.35rem] font-semibold tracking-[-0.04em] leading-none">
+        <a href="#topo" className="display flex min-h-11 items-center text-[1.35rem] font-semibold tracking-[-0.04em] leading-none">
           JB<span className="text-tinta-fraca"> Inovações</span>
         </a>
 
@@ -37,7 +37,7 @@ export function Cabecalho() {
             <a
               key={a.href}
               href={a.href}
-              className="rotulo text-tinta-media transition-colors hover:text-acento"
+              className="rotulo flex min-h-11 items-center text-tinta-media transition-colors hover:text-acento"
             >
               {a.texto}
             </a>

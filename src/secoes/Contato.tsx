@@ -39,7 +39,7 @@ ${projeto.trim()}`
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-14">
           <Revelar className="lg:col-span-6">
             <p className="rotulo text-tinta-fraca">
-              04 <span className="mx-2 text-regua-forte">/</span> Orçamento
+              04 <span aria-hidden="true" className="mx-2 text-tinta-fraca">/</span> Orçamento
             </p>
             <h2 className="display mt-6 max-w-[13ch] text-[clamp(2rem,5.5vw,4.25rem)]">
               Conta o que você vende. Eu respondo com prazo e preço.

@@ -10,7 +10,7 @@ export function Processo() {
         <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-14">
           <Revelar className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start">
             <p className="rotulo text-papel/55">
-              02 <span className="mx-2 text-papel/30">/</span> Como trabalhamos
+              02 <span aria-hidden="true" className="mx-2 text-papel/55">/</span> Como trabalhamos
             </p>
             <h2 className="display mt-6 max-w-[11ch] text-[clamp(2rem,5.5vw,4.25rem)]">
               Quatro etapas. Você aprova vendo.

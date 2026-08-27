@@ -34,7 +34,7 @@ export function PorQue() {
         <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-14">
           <Revelar className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start">
             <p className="rotulo text-tinta-fraca">
-              03 <span className="mx-2 text-regua-forte">/</span> Por que a JB
+              03 <span aria-hidden="true" className="mx-2 text-tinta-fraca">/</span> Por que a JB
             </p>
             <h2 className="display mt-6 max-w-[12ch] text-[clamp(2rem,5.5vw,4.25rem)]">
               O que muda quando o estúdio é pequeno.
