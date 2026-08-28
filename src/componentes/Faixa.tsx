@@ -3,7 +3,6 @@ const itens = [
   'Painel de administração',
   'Mostruário',
   'Catálogo',
-  'Botão de WhatsApp',
   'Site institucional',
   'Cabeçalho de segurança',
   'Publicação na Vercel',

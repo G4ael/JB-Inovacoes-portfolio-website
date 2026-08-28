@@ -9,7 +9,7 @@
 
 export const contato = {
   /* Só dígitos, com DDI 55. Ex.: '5547991500164' */
-  whatsapp: null as string | null,
+  whatsapp: '5547991500164' as string | null,
   /* Mensagem que já vai escrita quando a pessoa abre a conversa */
   whatsappMensagem: 'Oi! Vi o site de vocês e queria um orçamento para o meu site.',
   email: null as string | null,
@@ -49,7 +49,7 @@ export const projetos: Projeto[] = [
       'Até 4 fotos por produto, comprimidas no upload',
       'Preço em branco vira “sob consulta” com botão de orçamento',
     ],
-    link: null,
+    link: 'https://servigas-loja.vercel.app',
     imagem: '/projetos/servigas.webp',
     imagemPequena: '/projetos/servigas-800.webp',
     alt: 'Página inicial da loja Servigás Aquecedores, com barra de categorias à esquerda e vitrine de aquecedores a gás.',
@@ -68,7 +68,7 @@ export const projetos: Projeto[] = [
       'Pedido de peça personalizada por foto de referência',
       'Painel interno para trocar modelos e preços',
     ],
-    link: null,
+    link: 'https://forja-3d-loja.vercel.app',
     imagem: '/projetos/forja3d.webp',
     imagemPequena: '/projetos/forja3d-800.webp',
     alt: 'Página inicial da loja Forja 3D, em tema escuro, com catálogo de modelos impressos em 3D.',
@@ -86,7 +86,7 @@ export const projetos: Projeto[] = [
       'Painel de administração para trocar as peças',
       'Botão de orçamento que já abre o WhatsApp',
     ],
-    link: null,
+    link: 'https://mostruario-marcenaria.vercel.app',
     imagem: '/projetos/marcenaria.webp',
     imagemPequena: '/projetos/marcenaria-800.webp',
     alt: 'Página inicial do mostruário da Marcenaria Bom Madeiro, em tons de madeira escura, com chamada para ver o mostruário.',
@@ -117,5 +117,26 @@ export const etapas = [
     titulo: 'Entrega e chave na mão',
     texto:
       'Publicamos, conectamos o WhatsApp e te ensinamos a mexer no painel. Fica um passo a passo escrito na pasta do projeto para quando a memória falhar.',
+  },
+]
+
+/* Quem toca o estúdio. Entrada sem `nome` não é renderizada — vale a
+   mesma regra do resto do arquivo: nada de pessoa inventada. */
+export type Pessoa = {
+  id: string
+  nome: string
+  papel: string
+  github: string | null
+  /** Duas iniciais para o monograma quando não há foto. */
+  iniciais: string
+}
+
+export const equipe: Pessoa[] = [
+  {
+    id: 'gael',
+    nome: 'G4ael',
+    papel: 'Interface e código',
+    github: 'https://github.com/G4ael',
+    iniciais: 'GA',
   },
 ]

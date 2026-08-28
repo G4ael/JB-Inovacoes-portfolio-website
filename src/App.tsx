@@ -4,6 +4,7 @@ import { Portfolio } from './secoes/Portfolio'
 import { Faixa } from './componentes/Faixa'
 import { Processo } from './secoes/Processo'
 import { PorQue } from './secoes/PorQue'
+import { Equipe } from './secoes/Equipe'
 import { Contato } from './secoes/Contato'
 import { Rodape } from './secoes/Rodape'
 import { ControleMovimento } from './componentes/ControleMovimento'
@@ -24,6 +25,7 @@ export default function App() {
         <Faixa />
         <Processo />
         <PorQue />
+        <Equipe />
         <Contato />
       </main>
       <Rodape />

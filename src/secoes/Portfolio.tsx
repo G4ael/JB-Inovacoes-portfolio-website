@@ -30,7 +30,7 @@ export function Portfolio() {
       <div className="mx-auto max-w-[86rem] py-20 respiro-lateral sm:py-28">
         <Revelar>
           <p className="rotulo text-texto-fraco">
-            01 <span aria-hidden="true" className="mx-2 text-texto-fraco">/</span> Projetos
+            Projetos
           </p>
         </Revelar>
 

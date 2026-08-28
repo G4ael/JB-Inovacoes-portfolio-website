@@ -18,7 +18,7 @@ export function Processo() {
           <div className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start">
             <Revelar>
               <p className="rotulo text-texto-fraco">
-                02 <span aria-hidden="true" className="mx-2 text-texto-fraco">/</span> Como trabalhamos
+                Como trabalhamos
               </p>
             </Revelar>
 

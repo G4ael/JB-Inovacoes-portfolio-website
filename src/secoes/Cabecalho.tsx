@@ -5,6 +5,7 @@ import { linkWhatsapp, linkEmail } from '../lib/links'
 const ancoras = [
   { href: '#projetos', texto: 'Projetos' },
   { href: '#processo', texto: 'Processo' },
+  { href: '#equipe', texto: 'Quem faz' },
   { href: '#orcamento', texto: 'Orçamento' },
 ]
 

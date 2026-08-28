@@ -36,7 +36,7 @@ export function PorQue() {
           <div className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start">
             <Revelar>
               <p className="rotulo text-texto-fraco">
-                03 <span aria-hidden="true" className="mx-2 text-texto-fraco">/</span> Por que a JB
+                Por que a JB
               </p>
             </Revelar>
             <TextoRevelado

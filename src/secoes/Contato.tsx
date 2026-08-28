@@ -66,7 +66,7 @@ ${projeto.trim()}`
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-14">
           <Revelar className="lg:col-span-6">
             <p className="rotulo text-texto-fraco">
-              04 <span aria-hidden="true" className="mx-2 text-texto-fraco">/</span> Orçamento
+              Orçamento
             </p>
             <TextoRevelado
               as="h2"
