@@ -47,7 +47,7 @@ export const projetos: Projeto[] = [
       'Loja com busca, categorias e carrinho',
       'Sistema interno de vendas, estoque e clientes',
       'Até 4 fotos por produto, comprimidas no upload',
-      'Preço em branco vira "sob consulta" com botão de orçamento',
+      'Preço em branco vira “sob consulta” com botão de orçamento',
     ],
     link: null,
     imagem: '/projetos/servigas.webp',

@@ -6,6 +6,7 @@ import { Processo } from './secoes/Processo'
 import { PorQue } from './secoes/PorQue'
 import { Contato } from './secoes/Contato'
 import { Rodape } from './secoes/Rodape'
+import { ControleMovimento } from './componentes/ControleMovimento'
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
         <Contato />
       </main>
       <Rodape />
+      <ControleMovimento />
     </>
   )
 }

@@ -24,7 +24,7 @@ export function Hero() {
         <div className="pointer-events-none absolute inset-0 bg-fundo/62 sm:hidden" />
       </div>
 
-      <div className="relative mx-auto w-full max-w-[86rem] px-5 pt-24 pb-16 sm:px-8 sm:pt-28 sm:pb-20 lg:pt-32 lg:pb-24">
+      <div className="relative mx-auto w-full max-w-[86rem] pt-24 pb-16 respiro-lateral sm:pt-28 sm:pb-20 lg:pt-32 lg:pb-24">
         <p className="rotulo mb-10 flex items-center gap-3 text-texto-medio sm:mb-14">
           <span className="relative inline-flex h-1.5 w-1.5" aria-hidden="true">
             <span className="absolute inset-0 animate-ping rounded-full bg-neon opacity-70 motion-reduce:hidden" />

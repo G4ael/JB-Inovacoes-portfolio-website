@@ -1,4 +1,4 @@
-import { useId, useState, type FormEvent } from 'react'
+import { useId, useRef, useState, type FormEvent } from 'react'
 import { contato } from '../dados'
 import { linkWhatsapp, linkEmail } from '../lib/links'
 import { Botao, SetaWhatsapp } from '../componentes/Botao'
@@ -6,12 +6,16 @@ import { Revelar } from '../componentes/Revelar'
 import { TextoRevelado } from '../componentes/TextoRevelado'
 import { OndaPontosLazy } from '../componentes/OndaPontosLazy'
 
+type Erros = { nome?: string; projeto?: string }
+
 export function Contato() {
   const idNome = useId()
   const idProjeto = useId()
+  const refNome = useRef<HTMLInputElement>(null)
+  const refProjeto = useRef<HTMLTextAreaElement>(null)
   const [nome, setNome] = useState('')
   const [projeto, setProjeto] = useState('')
-  const [erro, setErro] = useState<string | null>(null)
+  const [erros, setErros] = useState<Erros>({})
 
   const zap = linkWhatsapp()
   const temEmail = Boolean(contato.email)
@@ -20,11 +24,24 @@ export function Contato() {
 
   function enviar(ev: FormEvent) {
     ev.preventDefault()
-    if (!nome.trim() || !projeto.trim()) {
-      setErro('Preencha o nome e a descrição para eu saber com quem falo e sobre o quê.')
+
+    /* Erro por campo, e não uma frase solta no fim do formulário:
+       quem usa leitor de tela precisa saber QUAL campo faltou. O foco
+       vai para o primeiro problema, que é o que a pessoa vai corrigir. */
+    const novos: Erros = {}
+    if (!nome.trim()) novos.nome = 'Escreve seu nome, para eu saber com quem falo.'
+    if (!projeto.trim()) novos.projeto = 'Duas linhas sobre o que você vende já bastam.'
+    setErros(novos)
+
+    if (novos.nome) {
+      refNome.current?.focus()
       return
     }
-    setErro(null)
+    if (novos.projeto) {
+      refProjeto.current?.focus()
+      return
+    }
+
     const corpo = `Nome: ${nome.trim()}
 
 Projeto:
@@ -35,6 +52,9 @@ ${projeto.trim()}`
     if (alvo) window.location.href = alvo
   }
 
+  const campoBase =
+    'mt-2.5 w-full rounded-[2px] border bg-transparent px-3.5 py-2.5 text-base text-texto transition-colors placeholder:text-texto-fraco/70 focus:outline-none'
+
   return (
     <section id="orcamento" className="relative isolate scroll-mt-24 overflow-hidden border-b border-linha">
       <div className="absolute inset-0 -z-10">
@@ -42,7 +62,7 @@ ${projeto.trim()}`
         <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-fundo from-20% via-fundo/80 to-fundo" />
       </div>
 
-      <div className="relative mx-auto max-w-[86rem] px-5 py-20 sm:px-8 sm:py-28">
+      <div className="relative mx-auto max-w-[86rem] respiro-lateral py-20 sm:py-28">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-14">
           <Revelar className="lg:col-span-6">
             <p className="rotulo text-texto-fraco">
@@ -58,7 +78,7 @@ ${projeto.trim()}`
               bastam para eu dizer se faz sentido e quanto custa.
             </p>
 
-            {zap && (
+            {zap ? (
               <div className="mt-9">
                 <Botao href={zap} target="_blank" rel="noopener noreferrer" tamanho="grande">
                   <SetaWhatsapp />
@@ -66,7 +86,7 @@ ${projeto.trim()}`
                 </Botao>
                 <p className="rotulo mt-4 text-texto-fraco">Resposta no horário comercial</p>
               </div>
-            )}
+            ) : null}
           </Revelar>
 
           {/* Alternativa para quem não quer entregar o número */}
@@ -79,15 +99,32 @@ ${projeto.trim()}`
                   Seu nome
                 </label>
                 <input
+                  ref={refNome}
                   id={idNome}
                   name="nome"
                   type="text"
                   autoComplete="name"
                   value={nome}
                   onChange={(e) => setNome(e.target.value)}
-                  className="mt-2.5 min-h-11 w-full rounded-[2px] border border-campo-borda bg-transparent px-3.5 py-2.5 text-base text-texto transition-colors placeholder:text-texto-fraco/70 focus:border-neon focus:outline-none"
-                  placeholder="Como te chamo"
+                  aria-invalid={erros.nome ? true : undefined}
+                  aria-describedby={erros.nome ? `${idNome}-erro` : undefined}
+                  className={
+                    campoBase +
+                    ' min-h-11 ' +
+                    (erros.nome ? 'border-neon' : 'border-campo-borda focus:border-neon')
+                  }
+                  placeholder="Como te chamo…"
                 />
+                {erros.nome ? (
+                  <p
+                    id={`${idNome}-erro`}
+                    role="alert"
+                    className="mt-2 flex gap-2 text-[0.9375rem] text-neon"
+                  >
+                    <span aria-hidden="true">↳</span>
+                    {erros.nome}
+                  </p>
+                ) : null}
               </div>
 
               <div className="mt-6">
@@ -95,22 +132,33 @@ ${projeto.trim()}`
                   O que você precisa
                 </label>
                 <textarea
+                  ref={refProjeto}
                   id={idProjeto}
                   name="projeto"
                   rows={5}
+                  autoComplete="off"
                   value={projeto}
                   onChange={(e) => setProjeto(e.target.value)}
-                  className="mt-2.5 w-full resize-y rounded-[2px] border border-campo-borda bg-transparent px-3.5 py-2.5 text-base leading-relaxed text-texto transition-colors placeholder:text-texto-fraco/70 focus:border-neon focus:outline-none"
-                  placeholder="Ex.: tenho uma loja de piso e quero um catálogo que eu mesmo atualize"
+                  aria-invalid={erros.projeto ? true : undefined}
+                  aria-describedby={erros.projeto ? `${idProjeto}-erro` : undefined}
+                  className={
+                    campoBase +
+                    ' resize-y leading-relaxed ' +
+                    (erros.projeto ? 'border-neon' : 'border-campo-borda focus:border-neon')
+                  }
+                  placeholder="Ex.: tenho uma loja de piso e quero um catálogo que eu mesmo atualize…"
                 />
+                {erros.projeto ? (
+                  <p
+                    id={`${idProjeto}-erro`}
+                    role="alert"
+                    className="mt-2 flex gap-2 text-[0.9375rem] text-neon"
+                  >
+                    <span aria-hidden="true">↳</span>
+                    {erros.projeto}
+                  </p>
+                ) : null}
               </div>
-
-              {erro && (
-                <p role="alert" className="mt-4 flex gap-2 text-[0.9375rem] text-neon">
-                  <span aria-hidden="true">↳</span>
-                  {erro}
-                </p>
-              )}
 
               <button
                 type="submit"
@@ -121,7 +169,7 @@ ${projeto.trim()}`
               </button>
               <p className="rotulo mt-4 text-texto-fraco">
                 {temCanal
-                  ? 'Abre o seu ' + destino + ' com a mensagem já escrita'
+                  ? `Abre o seu ${destino} com a mensagem já escrita`
                   : 'Canal de contato ainda não configurado em src/dados.ts'}
               </p>
             </form>

@@ -49,7 +49,7 @@ export function Cabecalho() {
         (rolou ? 'border-linha' : 'border-transparent')
       }
     >
-      <div className="mx-auto flex max-w-[86rem] items-center gap-4 px-5 py-3.5 sm:px-8">
+      <div className="mx-auto flex max-w-[86rem] items-center gap-4 py-3.5 respiro-lateral">
         <a
           href="#topo"
           className="display flex min-h-11 items-center text-[1.35rem] font-semibold leading-none tracking-[-0.04em]"

@@ -27,7 +27,7 @@ export function Portfolio() {
 
   return (
     <section id="projetos" className="scroll-mt-24 border-b border-linha">
-      <div className="mx-auto max-w-[86rem] px-5 py-20 sm:px-8 sm:py-28">
+      <div className="mx-auto max-w-[86rem] py-20 respiro-lateral sm:py-28">
         <Revelar>
           <p className="rotulo text-texto-fraco">
             01 <span aria-hidden="true" className="mx-2 text-texto-fraco">/</span> Projetos
@@ -70,8 +70,8 @@ export function Portfolio() {
                   <span
                     aria-hidden="true"
                     className={
-                      'absolute left-0 top-0 w-[2px] bg-(--cor-projeto) transition-[height] duration-500 ease-fisica ' +
-                      (estaAtivo ? 'h-full' : 'h-0')
+                      'absolute left-0 top-0 h-full w-[2px] origin-top bg-(--cor-projeto) transition-transform duration-500 ease-fisica ' +
+                      (estaAtivo ? 'scale-y-100' : 'scale-y-0')
                     }
                   />
                   {/* Halo que acende só na linha ativa */}

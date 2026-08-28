@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { movimentoPausado, ouvirMovimento } from '../lib/movimento'
 
 /* ============================================================
    Campo de pontos em onda — WebGL cru, sem biblioteca.
@@ -302,6 +303,7 @@ export function OndaPontos({ cor = '#5cfd86', className = '' }: Props) {
 
     function tocar() {
       if (rodando || menosMovimento || !visivel || document.hidden) return
+      if (movimentoPausado()) return
       rodando = true
       quadro = requestAnimationFrame(laco)
     }
@@ -321,6 +323,13 @@ export function OndaPontos({ cor = '#5cfd86', className = '' }: Props) {
     } else {
       tocar()
     }
+
+    /* O botão de pausar animações também segura a onda: sem isso o
+       controle mentiria, parando só a faixa rolante. */
+    const pararDeOuvir = ouvirMovimento((pausado) => {
+      if (pausado) parar()
+      else tocar()
+    })
 
     const obs = new IntersectionObserver(
       ([e]) => {
@@ -346,6 +355,7 @@ export function OndaPontos({ cor = '#5cfd86', className = '' }: Props) {
 
     return () => {
       parar()
+      pararDeOuvir()
       obs.disconnect()
       document.removeEventListener('visibilitychange', aoTrocarAba)
       canvas.removeEventListener('webglcontextlost', aoPerderContexto)

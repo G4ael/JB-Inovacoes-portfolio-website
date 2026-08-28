@@ -11,7 +11,7 @@ export function Rodape() {
   const ano = new Date().getFullYear()
 
   return (
-    <footer className="mx-auto max-w-[86rem] px-5 py-14 sm:px-8 sm:py-16">
+    <footer className="mx-auto max-w-[86rem] py-14 respiro-lateral sm:py-16">
       <div className="flex flex-col gap-10 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="display text-[1.5rem] tracking-[-0.04em]">

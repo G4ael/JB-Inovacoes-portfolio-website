@@ -41,6 +41,12 @@
     /* Cor viva por baixo de tudo, para o elástico do celular não
        revelar uma faixa branca no topo. */
     background-color: var(--color-fundo);
+    /* Sem isto, barra de rolagem e campos nativos saem no tema claro
+       do sistema, destoando de tudo em volta. */
+    color-scheme: dark;
+    /* Corta o atraso de 300ms que o toque duplo provoca no celular. */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: color-mix(in oklab, var(--color-neon) 22%, transparent);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -96,6 +102,20 @@
 
 @utility medida-texto {
   max-width: 34rem;
+}
+
+/* Respiro lateral que respeita entalhe e cantos arredondados.
+   Somado ao padding da faixa central, nunca subtraído dele. */
+@utility respiro-lateral {
+  padding-left: max(1.25rem, env(safe-area-inset-left));
+  padding-right: max(1.25rem, env(safe-area-inset-right));
+}
+
+@media (min-width: 640px) {
+  .respiro-lateral {
+    padding-left: max(2rem, env(safe-area-inset-left));
+    padding-right: max(2rem, env(safe-area-inset-right));
+  }
 }
 
 /* ------------------------------------------------------------
@@ -203,4 +223,15 @@
 
 @media (prefers-reduced-motion: reduce) {
   .faixa-trilho { animation: none; }
+}
+
+/* Pausa manual. A regra da WCAG 2.2.2 pede um controle para movimento
+   automático que passe de 5 segundos — e passar o mouse por cima não
+   é controle: não existe no toque nem no teclado. */
+[data-movimento='pausado'] .faixa-trilho {
+  animation-play-state: paused;
+}
+
+[data-movimento='pausado'] .animate-ping {
+  animation: none;
 }

@@ -13,7 +13,7 @@ export function Processo() {
         className="pointer-events-none absolute inset-0 opacity-70 [background-image:radial-gradient(var(--color-linha-forte)_1px,transparent_1px)] [background-size:22px_22px] [mask-image:radial-gradient(ellipse_at_50%_0%,black,transparent_72%)]"
       />
 
-      <div className="relative mx-auto max-w-[86rem] px-5 py-20 sm:px-8 sm:py-28">
+      <div className="relative mx-auto max-w-[86rem] py-20 respiro-lateral sm:py-28">
         <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start">
             <Revelar>

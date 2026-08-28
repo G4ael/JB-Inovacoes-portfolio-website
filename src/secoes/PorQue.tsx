@@ -31,7 +31,7 @@ const motivos = [
 export function PorQue() {
   return (
     <section className="border-b border-linha">
-      <div className="mx-auto max-w-[86rem] px-5 py-20 sm:px-8 sm:py-28">
+      <div className="mx-auto max-w-[86rem] py-20 respiro-lateral sm:py-28">
         <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start">
             <Revelar>
