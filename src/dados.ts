@@ -12,7 +12,8 @@ export const contato = {
   whatsapp: '5547991500164' as string | null,
   /* Mensagem que já vai escrita quando a pessoa abre a conversa */
   whatsappMensagem: 'Oi! Vi o site de vocês e queria um orçamento para o meu site.',
-  email: null as string | null,
+  email: 'jbsinovacoes@gmail.com' as string | null,
+  /* Sem Instagram por enquanto: o link some do site sozinho. */
   instagram: null as string | null,
   /* Nome de exibição do Instagram, ex.: '@jbinovacoes' */
   instagramArroba: null as string | null,
@@ -126,7 +127,19 @@ export type Pessoa = {
   id: string
   nome: string
   papel: string
+  /** Frase curta da própria pessoa. Vem do perfil do GitHub. */
+  bio: string
+  /** Tecnologias que a pessoa declara usar — não é lista de desejos. */
+  stack: string[]
+  local: string | null
   github: string | null
+  /** Apelido no GitHub, mostrado com @ */
+  arroba: string | null
+  /** Avatar servido daqui mesmo, e não do GitHub: menos uma requisição
+   *  externa e a CSP continua sem exceção para imagem de terceiro.
+   *  Para atualizar, baixe de github.com/USUARIO.png e converta. */
+  foto: string | null
+  fotoPequena: string | null
   /** Duas iniciais para o monograma quando não há foto. */
   iniciais: string
 }
@@ -134,9 +147,15 @@ export type Pessoa = {
 export const equipe: Pessoa[] = [
   {
     id: 'gael',
-    nome: 'G4ael',
-    papel: 'Interface e código',
+    nome: 'Gael',
+    papel: 'Back-end e integração',
+    bio: 'Developer BackEnd | C++ | Java | JS | NodeJS | Git',
+    stack: ['C++', 'Java', 'JavaScript', 'Node.js', 'Git'],
+    local: 'Porto Belo, SC',
     github: 'https://github.com/G4ael',
+    arroba: 'G4ael',
+    foto: '/equipe/gael.webp',
+    fotoPequena: '/equipe/gael-200.webp',
     iniciais: 'GA',
   },
 ]

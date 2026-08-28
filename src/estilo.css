@@ -271,3 +271,101 @@
 [data-movimento='pausado'] .animate-ping {
   animation: none;
 }
+
+/* ------------------------------------------------------------
+   Cartão de pessoa — anel girando, luz que segue o ponteiro e
+   inclinação leve. Tudo desliga com menos movimento e com o botão
+   de pausar.
+   ------------------------------------------------------------ */
+
+/* Registrar o ângulo é o que permite animá-lo: sem @property o
+   navegador trata a variável como texto e não interpola. */
+@property --giro {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes anel-gira {
+  to { --giro: 360deg; }
+}
+
+.anel-vivo::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  background: conic-gradient(
+    from var(--giro),
+    transparent 0deg,
+    color-mix(in oklab, var(--color-neon) 85%, transparent) 60deg,
+    transparent 150deg,
+    transparent 360deg
+  );
+  animation: anel-gira 7s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anel-vivo::before { animation: none; }
+}
+
+[data-movimento='pausado'] .anel-vivo::before {
+  animation: none;
+}
+
+/* Luz que acompanha o ponteiro dentro do cartão. As coordenadas
+   chegam por variável, escritas direto no DOM — sem estado React,
+   que re-renderizaria a cada pixel do mouse. */
+.cartao-luz::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    340px circle at var(--px, 50%) var(--py, 50%),
+    color-mix(in oklab, var(--color-neon) 13%, transparent),
+    transparent 68%
+  );
+  opacity: 0;
+  transition: opacity 0.45s var(--ease-fisica);
+}
+
+.cartao-luz:hover::after,
+.cartao-luz:focus-within::after {
+  opacity: 1;
+}
+
+.cartao-inclina {
+  transform: perspective(900px) rotateX(var(--ty, 0deg)) rotateY(var(--tx, 0deg));
+  transition: transform 0.5s var(--ease-fisica);
+  transform-style: preserve-3d;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cartao-inclina { transform: none; }
+}
+
+[data-movimento='pausado'] .cartao-inclina {
+  transform: none;
+}
+
+/* Fichas da stack entram escalonadas quando a seção sobe. */
+@keyframes ficha-entra {
+  from {
+    opacity: 0;
+    transform: translateY(0.6rem) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .ficha {
+      animation: ficha-entra linear both;
+      animation-timeline: view();
+    }
+  }
+}
